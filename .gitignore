@@ -1,0 +1,12 @@
+recordings/
+__pycache__/
+*.pyc
+best_score.txt
+pose_landmarker_full.task
+.vscode/
+
+.env
+*.env
+*.key
+credentials*.json
+secrets*

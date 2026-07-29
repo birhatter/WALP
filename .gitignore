@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 best_score.txt
 pose_landmarker_full.task
+pose_landmarker_lite.task
 .vscode/
 
 .env

@@ -1,13 +1,152 @@
-recordings/
-__pycache__/
-*.pyc
-best_score.txt
-pose_landmarker_full.task
-pose_landmarker_lite.task
-.vscode/
+# ==========================================================================
+# Nothing that is not the game itself gets published.
+#
+# Rule of thumb when adding to this file: if it is not needed to RUN the
+# game on someone else's machine, it does not belong in the repository.
+# ==========================================================================
 
+# --------------------------------------------------------------------------
+# SECRETS. Never commit any of this.
+# --------------------------------------------------------------------------
 .env
+.env.*
 *.env
-*.key
-credentials*.json
+env.json
 secrets*
+*secret*
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+credentials*
+*credential*
+*token*
+apikey*
+api_key*
+*.apikey
+auth.json
+service-account*.json
+.netrc
+.npmrc
+.pypirc
+.git-credentials
+*.gpg
+*.asc
+.aws/
+.ssh/
+id_rsa*
+id_ed25519*
+
+# AI / assistant tooling and its keys, history and settings
+.claude/
+.claude*
+CLAUDE.md
+.cursor/
+.continue/
+.aider*
+.copilot*
+.codeium*
+.anthropic*
+.openai*
+*.chatlog
+
+# --------------------------------------------------------------------------
+# Recordings of the player. THESE MUST NEVER BE PUSHED.
+# Every clip is video of whoever was playing.
+# --------------------------------------------------------------------------
+recordings/
+*.avi
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.gif
+
+# --------------------------------------------------------------------------
+# Your own music. Anything you did not write yourself must not be published,
+# so this folder never leaves the machine.
+# --------------------------------------------------------------------------
+# NOTE: leading slash = repository root only, so assets/music/ (the track
+# that ships with the game) is NOT caught by this.
+/music/
+*.mp3
+*.m4a
+*.flac
+
+# --------------------------------------------------------------------------
+# Developer tools. Useful while building, not for players.
+# --------------------------------------------------------------------------
+dev/
+preview/
+music_preview/
+*.wav
+*.ogg
+
+# --------------------------------------------------------------------------
+# Local state: scores, settings and saved poses differ per machine
+# --------------------------------------------------------------------------
+walp2_save.json
+my_poses.json
+best_score.txt
+
+# --------------------------------------------------------------------------
+# Editor and IDE settings - personal, and can contain local paths
+# --------------------------------------------------------------------------
+.vscode/
+.vs/
+.idea/
+*.code-workspace
+*.sublime-*
+.spyproject/
+.ropeproject/
+# VS Code's Local History extension keeps copies of every file you edit
+.history/
+*.lnk
+
+# --------------------------------------------------------------------------
+# Python
+# --------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --------------------------------------------------------------------------
+# Operating system junk
+# --------------------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.Spotlight-V100
+.Trashes
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+*.log
+
+# ==========================================================================
+# Exceptions. These must stay LAST: in a gitignore the final matching rule
+# wins, so an un-ignore placed earlier gets undone by any later pattern.
+# The music that ships with the game lives here.
+# ==========================================================================
+!assets/
+!assets/music/
+!assets/music/*

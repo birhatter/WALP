@@ -21,7 +21,7 @@ python walp2.py
 | `--dshow` | force the DirectShow backend (starts faster, slower on some webcams) |
 | `--selftest` | run the developer self test (needs `dev/`, see below) |
 
-Keys: `ESC` pause · `R` record · `M` mute · `F3` stats · `Ctrl+Q` quit.
+Keys: `ESC` pause · `R` record (off by default) · `M` mute · `F3` stats · `Ctrl+Q` quit.
 
 If the hand pointer misbehaves, press `F3` — the overlay shows whether a
 body is seen and where the pointer thinks your hand is.
@@ -105,7 +105,11 @@ three at once). The walls speed up far faster than the lives come back.
 
 ## Recording
 
-The game saves a video of each attempt to `recordings/` (created when the
+**Currently switched off.** `RECORDING_ENABLED = False` in `config.py`.
+Nothing is recorded, no folder is made and the `R` key does nothing. Set it
+back to `True` to re-enable — the whole feature is intact.
+
+When enabled, the game saves a video of each attempt to `recordings/` (created when the
 game starts, next to `walp2.py`), one file per attempt named
 `run_YYYYmmdd_HHMMSS.mp4`.
 

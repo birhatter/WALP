@@ -431,7 +431,7 @@ class Game:
                         self.kb_active = True
                         self.kb_index = idx
                         self.activate_kb_selection()
-                elif event.key == pygame.K_r:
+                elif event.key == pygame.K_r and config.RECORDING_ENABLED:
                     if self.recorder.toggle("clip"):
                         self.banners.append(Banner("RECORDING", config.CORAL, 1.2))
                     else:

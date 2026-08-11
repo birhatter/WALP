@@ -28,7 +28,10 @@ MODEL_CANDIDATES = (
 # never uploaded anywhere. Set RECORD_AUTO_RUNS to False to only record when
 # you press R.
 # --------------------------------------------------------------------------
-RECORDING_ENABLED = True
+# Master switch. False turns recording off completely: no folder is made, no
+# clip is started with a run, and the R key does nothing. Everything else
+# below is left in place and works again the moment this goes back to True.
+RECORDING_ENABLED = False
 RECORD_DIR = os.path.join(ROOT_DIR, "recordings")
 RECORD_AUTO_RUNS = True      # one clip per attempt, started and stopped for you
 RECORD_FPS = 30              # recorded fps, independent of the game's 60

@@ -25,7 +25,7 @@ import recording
 import vision
 import visuals as V
 import wall as W
-from audio import Audio
+from audio import Audio, pre_init_mixer
 
 # ---- modes ---------------------------------------------------------------
 LOADING = "loading"
@@ -1499,6 +1499,11 @@ def main() -> int:
     if args.camera is not None and args.camera != saved.get("camera"):
         saved["camera"] = args.camera
         write_save(saved)
+
+    # Must come BEFORE pygame.init(), which opens the mixer itself. Calling
+    # it afterwards silently does nothing, because a mixer that is already
+    # running ignores both pre_init and init.
+    pre_init_mixer()
 
     pygame.init()
     if args.windowed:

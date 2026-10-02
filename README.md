@@ -7,7 +7,7 @@ No controller, no mouse, no keyboard — just stand in front of the camera.
 
 ## Running it
 
-Double-click **`play_walp2.bat`**, or:
+Double-click **`play_walp2.bat`** (on Linux: `bash play_walp2.sh`), or:
 
 ```bash
 python walp2.py
@@ -25,6 +25,41 @@ Keys: `ESC` pause · `R` record (off by default) · `M` mute · `F3` stats · `C
 
 If the hand pointer misbehaves, press `F3` — the overlay shows whether a
 body is seen and where the pointer thinks your hand is.
+
+## Linux
+
+Any desktop Linux with a webcam and Python **3.9–3.12** works (check with
+`python3 --version`; mediapipe has no build for 3.13 yet). Recent Ubuntu and
+Debian refuse a system-wide `pip install`, so set up a small environment in
+the game folder once:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install pygame opencv-python mediapipe numpy
+```
+
+If `venv` is missing, install it first with `sudo apt install python3-venv`.
+If your `python3` is 3.13, use `python3.12 -m venv .venv` instead.
+
+From then on, start the game with:
+
+```bash
+bash play_walp2.sh
+```
+
+It finds `.venv` on its own. Every option above works the same way, for
+example `bash play_walp2.sh --windowed`. The one exception is `--dshow`,
+which is Windows only.
+
+If something goes wrong:
+
+- **`libGL.so.1: cannot open shared object file`**: run
+  `sudo apt install libgl1`.
+- **"Could not open the camera"**: close anything else using it (browser, video
+  call), then run `bash play_walp2.sh --list-cameras` to find the right index.
+- **Sound cuts out**: start with `PULSE_LATENCY_MSEC=60 bash play_walp2.sh`.
+  If it still happens, open an issue and include the `Audio: ...` line the
+  terminal prints at startup.
 
 ## Using an external webcam
 
@@ -251,8 +286,9 @@ Before your first push, check what is actually staged:
 git add -A && git status --short
 ```
 
-You should see exactly thirteen files: `.gitignore`, `README.md`,
-`play_walp2.bat`, the nine `.py` files, and the two `assets/*.task` models.
+You should see exactly fifteen files: `.gitignore`, `.gitattributes`,
+`README.md`, `play_walp2.bat`, `play_walp2.sh`, the nine `.py` files, and the
+two `assets/*.task` models.
 Anything else, stop and add it to `.gitignore` first.
 
 ## Requirements

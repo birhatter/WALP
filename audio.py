@@ -5,6 +5,7 @@ startup. There are no .wav or .ogg files to ship, nothing to download, and
 nothing that can go missing.
 """
 
+import sys
 import threading
 from typing import Optional
 
@@ -14,6 +15,8 @@ import pygame
 import config
 
 SR = config.AUDIO_SAMPLE_RATE
+BUFFER = (config.AUDIO_BUFFER_LINUX if sys.platform.startswith("linux")
+          else config.AUDIO_BUFFER)
 
 # Semitone offsets for a major pentatonic scale, two octaves.
 PENTATONIC = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24]
@@ -525,6 +528,26 @@ def load_loop(path: str) -> Optional[pygame.mixer.Sound]:
 # Engine
 # --------------------------------------------------------------------------
 
+def pre_init_mixer() -> None:
+    """Ask for the mixer format we want, before anything opens one.
+
+    This has to run before `pygame.init()`. Once a mixer is running both
+    pre_init and init are ignored, so calling it from Audio.init() - which is
+    where it used to live - quietly did nothing and the game ran on whatever
+    buffer size pygame happened to pick. A small buffer is what keeps the hit
+    and miss sounds tight against the wall.
+
+    allowedchanges=0 pins the format to what every recipe here is written
+    for. Left to choose, SDL can open a Linux device at 48 kHz (everything
+    plays sharp) or in 5.1 (make_sound refuses stereo and the game goes
+    silent); pinned, SDL converts for the device itself.
+    """
+    try:
+        pygame.mixer.pre_init(SR, -16, 2, BUFFER, allowedchanges=0)
+    except pygame.error:
+        pass
+
+
 class Audio:
     def __init__(self) -> None:
         self.ok = False
@@ -543,14 +566,16 @@ class Audio:
     # -- setup ------------------------------------------------------------
     def init(self) -> None:
         try:
-            pygame.mixer.pre_init(SR, -16, 2, 512)
-            pygame.mixer.init(SR, -16, 2, 512)
+            pygame.mixer.init(SR, -16, 2, BUFFER, allowedchanges=0)
             pygame.mixer.set_num_channels(32)
             pygame.mixer.set_reserved(1)
             self._music_channel = pygame.mixer.Channel(0)
-        except pygame.error:
+        except pygame.error as exc:
+            print(f"Audio unavailable: {exc}")
             self.ok = False
             return
+        freq, _, channels = pygame.mixer.get_init()
+        print(f"Audio: {freq} Hz, {channels} ch, buffer {BUFFER}")
 
         try:
             for name, recipe in SFX_RECIPES.items():
@@ -565,7 +590,8 @@ class Audio:
                 snd = _to_sound(_sfx_pose_cue(idx))
                 snd.set_volume(config.SFX_VOLUME * 0.8)
                 self.pose_cues.append(snd)
-        except Exception:
+        except Exception as exc:
+            print(f"Could not build sounds: {exc}")
             self.ok = False
             return
 

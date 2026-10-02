@@ -371,6 +371,12 @@ STAR_THRESHOLDS = (4, 10, 18)
 # Audio
 # --------------------------------------------------------------------------
 AUDIO_SAMPLE_RATE = 44100
+# Mixer buffer, in samples. Small is what keeps the hit and miss sounds tight
+# against the wall. Linux gets a bigger one: SDL's PulseAudio/PipeWire backend
+# halves whatever is asked for, and at 512 its sound thread starves while the
+# pose model is busy - the sound cuts out a couple of seconds in and stays out.
+AUDIO_BUFFER = 512
+AUDIO_BUFFER_LINUX = 2048
 # Drop your own .ogg or .wav files in this folder and they are used instead
 # of the generated music, one per world in name order. The folder is
 # gitignored, so whatever you put there stays on your machine and is never
